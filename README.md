@@ -5,4 +5,4 @@
 ## Сборка виджета --
 
 1. Установка дополнительных зависимостей:spatie/laravel-medialibrary, spatie/laravel-permission
-2. ... 
+2. Собрать сущности + бизнес логика 
