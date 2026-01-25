@@ -4,6 +4,7 @@
 
 # Сборка виджета
 
+---
 
 ## Установка зависимости: composer require spatie/laravel-permission
 
@@ -30,6 +31,23 @@
 
     - database/migrations/2026_01_25_093223_create_media_table.php
     - config/media-library.php
+
+---
+
+Созданы основные таблицы: database\migrations\
+   
+    - 0000_01_00_000001_create_customers_table.php
+    - 0000_01_00_000002_create_tickets_table.php
+    - 0001_01_01_000000_create_users_table.php
+
+
+
+
+
+
+
+
+
 
 
 
