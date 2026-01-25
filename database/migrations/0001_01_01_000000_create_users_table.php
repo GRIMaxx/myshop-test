@@ -1,5 +1,6 @@
 <?php
 // 24.01.2026 - это админы и менеджеры, которые работают с заявками.
+// Таблица
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
