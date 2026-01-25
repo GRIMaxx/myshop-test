@@ -18,4 +18,4 @@
    - config/permission.php
    - database/migrations/2026_01_25_081536_create_permission_tables.php
 
-3. Собрать сущности + бизнес логика 
+
