@@ -1,5 +1,5 @@
 <?php
-
+// 24.01.2026 - это админы и менеджеры, которые работают с заявками.
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -11,29 +11,41 @@ return new class extends Migration
      */
     public function up(): void
     {
+        /*
+         * Таблица пользователя
+         */
         Schema::create('users', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->string('email')->unique();
-            $table->timestamp('email_verified_at')->nullable();
-            $table->string('password');
-            $table->rememberToken();
+
+            /*
+             * Полное имя пользователя
+             * Добавил индекс для вывода Имени Админа или Менеджера (от меня.. хотя и не обезательно),
+             * индекс даст ускорения при выборке или поиске заявки
+             */
+            $table->string('name', 50)->index('idx_users_name');
+
+            /*
+             * Почта пользователя
+             * Почта - (Админ|Менеджер) только уникальные эл. адресса
+             * Кол-во символов нормальная длинна для почты можно меньше но длинее не рекомендую.
+             * */
+            $table->string('email', 50)->unique();
+
+            /*
+             * Хешированный пароль
+             * По кол-ву символов, в Laravel по умолчанию хеш пароля создаётся через bcrypt,
+             * и bcrypt всегда генерирует хеш фиксированной длины 60 символов - для экономии и оптимизации
+             * вашей Бд....:)
+             * но я устанавливаю максимум так как я не знаю ваши методы хешировани
+             * 191 - некоторых БД это макс.
+             */
+            $table->string('password', 191);
+
+            /**
+             * created_at
+             * updated_at
+             */
             $table->timestamps();
-        });
-
-        Schema::create('password_reset_tokens', function (Blueprint $table) {
-            $table->string('email')->primary();
-            $table->string('token');
-            $table->timestamp('created_at')->nullable();
-        });
-
-        Schema::create('sessions', function (Blueprint $table) {
-            $table->string('id')->primary();
-            $table->foreignId('user_id')->nullable()->index();
-            $table->string('ip_address', 45)->nullable();
-            $table->text('user_agent')->nullable();
-            $table->longText('payload');
-            $table->integer('last_activity')->index();
         });
     }
 
@@ -43,7 +55,5 @@ return new class extends Migration
     public function down(): void
     {
         Schema::dropIfExists('users');
-        Schema::dropIfExists('password_reset_tokens');
-        Schema::dropIfExists('sessions');
     }
 };
