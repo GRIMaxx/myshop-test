@@ -18,4 +18,18 @@
    - config/permission.php
    - database/migrations/2026_01_25_081536_create_permission_tables.php
 
+## Установка зависимости: composer require spatie/laravel-medialibrary
+
+Пакет, который связывает файлы с моделями Eloquent
+
+**Для создания таблицы необходимо опубликовать миграцию media:** php artisan vendor:publish --provider="Spatie\MediaLibrary\MediaLibraryServiceProvider" --tag="medialibrary-migrations"
+
+**Публикация файла конфигурации:** php artisan vendor:publish --provider="Spatie\MediaLibrary\MediaLibraryServiceProvider" --tag="medialibrary-config"
+
+**После всех манипуляций появяться:**
+
+    - database/migrations/2026_01_25_093223_create_media_table.php
+    - config/media-library.php
+
+
 
