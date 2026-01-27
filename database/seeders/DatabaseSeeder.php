@@ -15,11 +15,24 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // User::factory(10)->create();
+        $this->call([
+            /*
+             * Первым следует создать роли - потому что роли должны существовать ДО пользователей,
+             * иначе нельзя назначить роль
+             * Создаёт 2 записи в таблице roles
+             * **/
+            RoleSeeder::class,
 
-        User::factory()->create([
-            'name' => 'Test User',
-            'email' => 'test@example.com',
+            /*
+             * Создаем одного Админа и три менеджера и присваиваем всем свои роли
+             **/
+            UserSeeder::class,
+
+            /*
+             *
+             *
+             * ***/
+            CustomerTicketSeeder::class,
         ]);
     }
 }
