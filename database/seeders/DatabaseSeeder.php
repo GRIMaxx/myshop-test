@@ -29,8 +29,8 @@ class DatabaseSeeder extends Seeder
             UserSeeder::class,
 
             /*
-             *
-             *
+             * Создаются клиенты (20шт.)
+             * Для каждого клиента создаются от 1 до 3 заявок, с дублями email/phone + subject/message + status
              * ***/
             CustomerTicketSeeder::class,
         ]);

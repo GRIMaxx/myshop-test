@@ -1,5 +1,5 @@
 <?php
-/* 25.01.2026
+/* 27.01.2026
  * Заполняем поля данными таблицы "tickets"
  *
  * **/
@@ -22,23 +22,22 @@ class TicketFactory extends Factory
     public function definition(): array
     {
         return [
-            //
-            'customer_id' => Customer::factory(),
-            //
-            'status'      => $this->faker->randomElement([
+            'customer_id'    => Customer::factory(),                  // связь с клиентом
+
+            // новая логика по этому добавил поля
+            'customer_email' => $this->faker->unique()->safeEmail(),  // snapshot email
+            'customer_phone' => '+77' . $this->faker->numberBetween(1000000000, 9999999999), // snapshot phone
+            'subject'        => $this->faker->sentence(5),    // тема заявки
+            'message'        => $this->faker->paragraph(2),// текст заявки
+            'status'         => $this->faker->randomElement([
                 'new',
                 'in_progress',
-                'completed',
-                'rejected',
+                'completed'
             ]),
-            // ????
-            'identifier' => Str::uuid()->toString(),
-
-            'note' => $this->faker->boolean(70)
-                ? $this->faker->sentence()
-                : null,
-            'created_at' => $this->faker->dateTimeBetween('-3 months'),
-            'updated_at' => now(),
+            'answered_at'    => null,                                 // пока пусто
+            '
+            created_at'     => $this->faker->dateTimeBetween('-3 months'),
+            'updated_at'     => now()
         ];
     }
 }
