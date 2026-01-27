@@ -79,10 +79,23 @@
 
 ---
 
+## Установка маршрутов запросв:
+**Так как мы будем использовать маршруты API и Laravel 12 не устанавливает по умолчанию выполняем команду: php artisan install:api**
 
+.routes\web.php
 
+```php
+Route::view('/widget', 'widget.form')->name('widget');
+```
 
+routes/api.php
 
+```php
+
+Route::post('/tickets', [TicketController::class, 'store']);
+Route::get('/tickets/statistics', [TicketController::class, 'statistics']);
+
+```
 
 
 
