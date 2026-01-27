@@ -45,3 +45,36 @@
     - Ticket.php
     - User.php
 
+ ---
+
+ # Собрал для теста (Factory/Seeder) 
+
+    - CustomerFactory.php
+    - RoleSeeder.php
+    - UserSeeder.php
+
+    - CustomerFactory.php
+    - MediaFactory.php
+    - TicketFactory.php
+    - UserFactory.php
+
+    - DatabaseSeeder.php (здесь все добп=авил)
+
+## Выполнить установку тестовых даных:
+** 1 Рекомендую удалить все таблицы из БД**
+** 2 Заливаем даными таблицы**
+
+1. php artisan migrate:fresh
+2. php artisan db:seed
+
+
+
+
+
+
+
+
+
+
+ 
+
