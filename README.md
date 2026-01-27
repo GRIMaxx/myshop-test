@@ -58,11 +58,10 @@
     - TicketFactory.php
     - UserFactory.php
 
-    - DatabaseSeeder.php (здесь все добп=авил)
+    - DatabaseSeeder.php (здесь строгий порядок)
 
 ## Выполнить установку тестовых даных:
-** 1 Рекомендую удалить все таблицы из БД**
-** 2 Заливаем даными таблицы**
+** 1 - (Рекомендую) удалить все таблицы из БД, 2 - Заливаем даными таблицы**
 
 1. php artisan migrate:fresh
 2. php artisan db:seed
