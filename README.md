@@ -66,7 +66,9 @@
 1. php artisan migrate:fresh
 2. php artisan db:seed
 
+- Добавил sql файл с данными:database\myshop_test.sql  
 
+---
 
 
 
