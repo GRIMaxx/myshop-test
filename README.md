@@ -4,7 +4,7 @@
 
 Проект сделан как тестовое задание, но с нормальной архитектурой, без я списал или подобное, но если чесно больше времени потрачено на коментарии чем на код :).
 
-Основные мысли и описания в комментариях в самих методах в коде (я больше писал поэмы чем собирал код :))
+Основные мысли и описания в комментариях в самих методах в коде (я больше писал поэмы чем, собирал код :))
 
 ---
 
@@ -26,10 +26,10 @@
 - **PHP 8.4**
 - **MySQL**
 - **Bootstrap 5** (для UI, т.к. привычен и удобен)
-- **spatie/laravel-permission 6.24** — роли (admin / manager)
-- **spatie/laravel-medialibrary 11.17** — файлы для заявок
+- **spatie/laravel-permission 6.24** - роли (admin / manager)
+- **spatie/laravel-medialibrary 11.17** - файлы для заявок
 
-Никаких лишних библиотек - только то, что требуется ТЗ.
+Никаких лишних библиотек - только то, что требуется ТЗ, не считая Bootstrap
 
 ---
 
@@ -103,6 +103,7 @@ resources/
 storage/app/
     └── test_smart.pdf   (файла нет так как при комите ругаеться я не стал настаивать :))
 ```
+
 ---
 
 ## Установка проекта
@@ -126,18 +127,21 @@ composer install
 cp .env.example .env
 php artisan key:generate
 
-Указать доступы к БД
+!Не забываем указать доступы к БД.
 ```
 
 ### Установка пакетов
-spatie/laravel-permission
+
+**spatie/laravel-permission**
+
 ```bash
 composer require spatie/laravel-permission
 php artisan vendor:publish --provider="Spatie\Permission\PermissionServiceProvider"
 php artisan migrate
 ```
 
-spatie/laravel-medialibrary
+**spatie/laravel-medialibrary**
+
 ```bash
 composer require spatie/laravel-medialibrary
 php artisan vendor:publish --provider="Spatie\MediaLibrary\MediaLibraryServiceProvider" --tag="medialibrary-migrations"
@@ -156,7 +160,7 @@ php artisan migrate:fresh
 php artisan db:seed
 ```
 
-## Также приложен SQL-дамп:
+## Также приложен SQL-дамп (можно сразу в вушу БД импортировать):
 ```bash
 database/myshop_test.sql
 ```
@@ -183,6 +187,7 @@ GET /widget
     - отправляет данные через AJAX
     - обрабатывает ошибки и успешные ответы
     - не требует авторизации
+    - легкий, но я могу и усложнить добавив React... :)
 
 ## API
 
@@ -196,7 +201,7 @@ POST /api/tickets
 {
   "success": true,
   "message": "Заявка успешно отправлена",
-  "data": null,  (создан механизм для отправки полей созданной заявки но не подключен)
+  "data": null,  - (создан механизм для отправки полей созданной заявки но не подключен)
   "errors": null
 }
 ```
