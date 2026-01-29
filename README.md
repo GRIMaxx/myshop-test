@@ -1,108 +1,81 @@
+# Mini-CRM с виджетом обратной связи (Laravel 12)
 
-# Предварительно конец сборки ТЗ 29.01.2026 +- 00.00
+Небольшой, но полноценный проект мини-CRM для сбора и обработки заявок с сайта через универсальный iframe-виджет.
 
-
-
-# 1. Этап: 
-    
-    - Установка зависимостей
-    - Создания Таблиц и Моделей
-    - Factory/Seeder
-
-**!Все таблицы уже собраны с логикой тестового задания**
-
-***При сборке могу писать с ошибками нет времени проверять орфографию***
-
-***В каждом этапе все настройки установки и так далее тестирую вам просто останется пройти по инструкции***
+Проект сделан как тестовое задание, но с нормальной архитектурой, без «на коленке».
 
 ---
 
-## Установка зависимости: composer require spatie/laravel-permission
+## Краткое описание
 
-Этот пакет, чтобы легко добавлять разрешения или роли пользователям в приложении Laravel.
-
-**Опубликовать файл миграции и config/permission.php и файл конфигурации следующим образом:** php artisan vendor:publish --provider="Spatie\Permission\PermissionServiceProvider
-
-**Пакет устанавливает дополнительно конфиг и таблицы - после установки пакета обезательно выполнить команду миграции (php artisan migrate)**
-
-**После всех манипуляций появяться:**
-
-   - config/permission.php
-   - database/migrations/2026_01_25_081536_create_permission_tables.php
-
-## Установка зависимости: composer require spatie/laravel-medialibrary
-
-Пакет, который связывает файлы с моделями Eloquent
-
-**Для создания таблицы необходимо опубликовать миграцию media:** php artisan vendor:publish --provider="Spatie\MediaLibrary\MediaLibraryServiceProvider" --tag="medialibrary-migrations"
-
-**Публикация файла конфигурации:** php artisan vendor:publish --provider="Spatie\MediaLibrary\MediaLibraryServiceProvider" --tag="medialibrary-config"
-
-**После всех манипуляций появяться:**
-
-    - database/migrations/2026_01_25_093223_create_media_table.php
-    - config/media-library.php
+Проект позволяет:
+- принимать заявки с сайта через iframe-виджет
+- сохранять клиентов и заявки
+- ограничивать отправку заявок (не чаще 1 раза в 24 часа)
+- прикреплять файлы к заявкам
+- просматривать и обрабатывать заявки в админ-панели
+- получать статистику по заявкам (сутки / неделя / месяц)
 
 ---
 
-## Созданы основные таблицы, все таблицы полностью отвечают логике тестового задания: database\migrations\
-   
-    - 0000_01_00_000001_create_customers_table.php
-    - 0000_01_00_000002_create_tickets_table.php
-    - 0001_01_01_000000_create_users_table.php
+## Используемые технологии
+
+- **Laravel 12**
+- **PHP 8.4**
+- **MySQL**
+- **Bootstrap 5** (для UI, т.к. привычен и удобен)
+- **spatie/laravel-permission** — роли (admin / manager)
+- **spatie/laravel-medialibrary** — файлы для заявок
+
+Никаких лишних библиотек — только то, что требуется ТЗ.
 
 ---
 
-## Созданы основные модели, (Пока без методов связей) app\Models\:
+## Сущности проекта
 
-    - Customer.php
-    - Ticket.php
-    - User.php
+### User (менеджер / админ)
+- name
+- email
+- password
+- роли (через spatie/laravel-permission)
 
- ---
+### Customer (клиент)
+- name
+- phone (формат E.164)
+- email
 
- # Собрал для теста (Factory/Seeder) 
+### Ticket (заявка)
+- customer_id (связь с Customer)
+- subject
+- message
+- status (new / in_progress / completed)
+- answered_at
+- файлы (через MediaLibrary)
 
-    - CustomerFactory.php
-    - RoleSeeder.php
-    - UserSeeder.php
-
-    - CustomerFactory.php
-    - MediaFactory.php
-    - TicketFactory.php
-    - UserFactory.php
-
-    - DatabaseSeeder.php (здесь строгий порядок)
-
-## Выполнить установку тестовых даных:
-**1 - (Рекомендую) удалить все таблицы из БД, 2 - Заливаем даными таблицы**
-
-1. php artisan migrate:fresh
-2. php artisan db:seed
-
-- Добавил sql файл с данными:database\myshop_test.sql  
+### File
+- реализовано через **spatie/laravel-medialibrary**
+- файлы привязываются к заявке
 
 ---
 
-## Установка маршрутов запросв:
-**Так как мы будем использовать маршруты API и Laravel 12 не устанавливает по умолчанию выполняем команду: php artisan install:api**
+## Архитектура
 
-.routes\web.php
+Проект построен по классической схеме:
 
-```php
-Route::view('/widget', 'widget.form')->name('widget');
-```
+- Controllers — **минимум логики**
+- Services — бизнес-логика
+- Repositories — работа с БД
+- FormRequest — **вся валидация**
+- Resources — единый формат API-ответов
 
-routes/api.php
+Принципы:
+- SOLID
+- MVC
+- KISS
+- DRY
+- PSR-12
 
-```php
+---
 
-Route::post('/tickets', [TicketController::class, 'store']);
-Route::get('/tickets/statistics', [TicketController::class, 'statistics']);
-
-```
-
-
-
- 
+## Структура проекта (основное)
 
