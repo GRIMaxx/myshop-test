@@ -24,10 +24,10 @@
 - **PHP 8.4**
 - **MySQL**
 - **Bootstrap 5** (для UI, т.к. привычен и удобен)
-- **spatie/laravel-permission** — роли (admin / manager)
-- **spatie/laravel-medialibrary** — файлы для заявок
+- **spatie/laravel-permission 6.24** — роли (admin / manager)
+- **spatie/laravel-medialibrary 11.17** — файлы для заявок
 
-Никаких лишних библиотек — только то, что требуется ТЗ.
+Никаких лишних библиотек - только то, что требуется ТЗ.
 
 ---
 
@@ -62,11 +62,11 @@
 
 Проект построен по классической схеме:
 
-- Controllers — **минимум логики**
-- Services — бизнес-логика
-- Repositories — работа с БД
-- FormRequest — **вся валидация**
-- Resources — единый формат API-ответов
+- Controllers - **минимум логики**
+- Services - бизнес-логика
+- Repositories - работа с БД
+- FormRequest - **вся валидация**
+- Resources - единый формат API-ответов
 
 Принципы:
 - SOLID
@@ -78,4 +78,66 @@
 ---
 
 ## Структура проекта (основное)
+
+app/
+    ├── Http/
+    │   ├── Controllers/
+    │   │   ├── Api/
+    │   │   └── Admin/
+    │   ├── Requests/
+    │   ├── Resources/
+    ├── Services/
+    ├── Repositories/
+
+resources/
+    └── views/
+    └── widget/
+    ├── components/
+    │ └── form/
+    └── admin/
+    └── components/
+
+storage/app/
+    └── test_smart.pdf   (файла нет так как при комите ругаеться я не стал настаивать :))
+
+---
+
+## Установка проекта
+
+### 1. Клонировать репозиторий
+
+```bash
+git clone <repo_url>
+cd myshop-test
+```
+
+### 2. Установить зависимости
+
+```bash
+composer install
+```
+
+### 3. Настроить .env
+
+```bash
+cp .env.example .env
+php artisan key:generate
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
