@@ -127,9 +127,7 @@ php artisan key:generate
 Указать доступы к БД
 ```
 
----
-
-### 4. Установка пакетов
+### Установка пакетов
 spatie/laravel-permission
 ```bash
 composer require spatie/laravel-permission
@@ -145,7 +143,67 @@ php artisan vendor:publish --provider="Spatie\MediaLibrary\MediaLibraryServicePr
 php artisan migrate
 ```
 
+## Миграции и тестовые данные
 
+В проекте есть migrations, factories и seeders для всех сущностей.
+
+## Заполнение БД тестовыми данными
+
+```bash
+php artisan migrate:fresh
+php artisan db:seed
+```
+
+## Также приложен SQL-дамп:
+```bash
+database/myshop_test.sql
+```
+
+## Виджет обратной связи
+## Маршрут
+```bash
+GET /widget
+```
+
+## Встраивание на любой сайт
+```bash
+<iframe
+    src="https://your-domain.com/widget"
+    width="100%"
+    height="520"
+    frameborder="0">
+</iframe>
+```
+
+**Виджет:**
+
+- стилизован (Bootstrap 5)
+- отправляет данные через AJAX
+- обрабатывает ошибки и успешные ответы
+- не требует авторизации
+
+## API
+
+Создание заявки
+```bash
+POST /api/tickets
+```
+
+**Все ответы приходят в едином формате:**
+```bash
+{
+  "success": true,
+  "message": "Заявка успешно отправлена",
+  "data": null,  (создан механизм для отправки полей созданной заявки но не подключен)
+  "errors": null
+}
+```
+
+**Ограничени**я
+
+- не более 1 заявки в 24 часа с одного email + телефона
+- дополнительный rate-limit на маршрут  
+  
 
 
 
