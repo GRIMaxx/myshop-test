@@ -35,9 +35,8 @@ class TicketFactory extends Factory
                 'completed'
             ]),
             'answered_at'    => null,                                 // пока пусто
-            '
-            created_at'     => $this->faker->dateTimeBetween('-3 months'),
-            'updated_at'     => now()
+
+            // created_at / updated_at, их ставит Laravel автоматически
         ];
     }
 }

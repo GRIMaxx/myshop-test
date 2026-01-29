@@ -159,6 +159,8 @@ return new class extends Migration
              * - можно делать сортировку по дате
              * **/
             $table->index('created_at', 'idx_tickets_created_at');
+
+            //  $table->softDeletes(); - если нужно мягкое удаления и история например для админки разкоментировать и в модели тоже
         });
     }
 

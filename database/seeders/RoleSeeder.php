@@ -15,9 +15,9 @@ class RoleSeeder extends Seeder
     {
         /*
          * 'name'       => 'Админ/Менеджер', <--- здесь 2 роли как в тестовом задании
-         * 'guard_name' => 'web' ???
+         * 'guard_name' => 'web' охранник
          *
-         *
+         * Рекоментатьен оставить английские роли - Laravel & Spatie обычно ожидают латиницу
          * ***/
 
         Role::firstOrCreate(['name' => 'Admin', 'guard_name' => 'web']);

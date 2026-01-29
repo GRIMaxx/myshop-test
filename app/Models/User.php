@@ -8,6 +8,7 @@ namespace App\Models;
 
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Spatie\Permission\Traits\HasRoles; // Пакет - spatie/laravel-permission
+use Illuminate\Database\Eloquent\Factories\HasFactory; // <- обязательно для тестовых данных
 
 class User extends Authenticatable
 {
@@ -20,7 +21,7 @@ class User extends Authenticatable
      * там модно за одно посмотреть методы связей.
      * Этим трейтом все активируем
      * ***/
-    use HasRoles;
+    use HasFactory, HasRoles; // <- HasFactory нужен, иначе ->factory() не работает - для тестовых данных
 
     /**
      * The attributes that are mass assignable.
