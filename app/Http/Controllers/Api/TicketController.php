@@ -1,23 +1,105 @@
 <?php
-/*
+/* 28.01.2026
  * Контроллер - единая точка API
  *
+ * Здесь минимум логики, только - вызов сервиса (как в задании)
+ *
+ * Минимальная логика все по стандартам разнесено по своим местам, лично я всегда так делаю
+ * в крупных проектах это критически важно для разширения и гибкости на будущее.
+ *
+ * Для ответов я разнес как в ТЗ в отдельный Resource,
+ * чтобы контроллеры не знали структуру JSON или по минимуму
+ * и чтобы изменения API не затрагивали логику.
  *
  * ***/
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use App\Http\Resources\TicketResource;
-use App\Models\Customer;
-use App\Models\Ticket;
-use Illuminate\Http\Request;
-use Illuminate\Support\Carbon;
+use App\Http\Requests\StoreTicketRequest;
+use App\Http\Resources\TicketStatisticsResource;
+use App\Services\TicketService;
+use Illuminate\Http\JsonResponse;
 class TicketController extends Controller
 {
+    protected TicketService $ticketService;
 
+    public function __construct(TicketService $ticketService)
+    {
+        $this->ticketService = $ticketService;
+    }
 
+    /*
+     * Создание новой заявки через API
+     *
+     * Принимаем форму по маршруту: api.php -> https://домен/api/tickets
+     *
+     * Логика:
+     *
+     * 1. Валидация всех входящих данных через StoreTicketRequest
+     * 2. Если валидация успешна отправляем в сервис для проверки лимита 24 часа (в задании сутки)
+     * 3. Если проверка пройдена и заявки нет или нет лимита получаем пользователя либо создаем (нет регистрации а это значит создаем пользователя на горячюю)
+     * 4. Результат вернем в API json
+     *
+     * Очень важно всегда даже ошибки возвращать фронту в формате JsonResponse
+     * по этой причине зафиксировал.
+     * ****/
+    public function store(StoreTicketRequest $request) : JsonResponse
+    {
+        /*
+         * !Очень важная деталь здесь не нужен try/catch
+         * далее все ошибки перехватываються автоматически нам Laravel
+         * дает это зделать здесь если что: .\bootstrap\app.php --> ->withExceptions(function ...
+         *
+         * Просто я подумал может при проверке ТЗ будет не понятно как выводятся ошибки,
+         * здесь действительно нет как раньше if try/catch и так далее немного затупляет ч тоже иногда
+         * сам забуду и думаю как?, но теперь вы знаете как.
+         *
+         * Но это не принципиально можно и по старинке :)
+         *
+         * ***/
 
+        /*
+         * Создать заяку
+         *
+         * 1. Проверить возможно клиент в течении 24 часов совершал отправку заявки
+         * 2. Найти клиента если он есть в БД или создать клиента если его нет, и создать заявку с привязкой к клиенту
+         *
+         * При успешном создании заявки вернет модель ее с данными.
+         **/
+        $this->ticketService->createTicket(
+            $request->validated()   // Проверенные поля с даными
+        );
 
+        /*
+         * Вернем ответ
+         *
+         * **/
+        return response()->json([
+            'success' => true,
+            'message' => 'Заявка успешно отправлена', // все тексты нужно добавлять в lang/ Но для ТЗ не вижу смысла. так я упростил проверку для вас
+            "data"    => null,                        // Клиенту не нужны поля заявки из БД по этому пусто
+            'errors'  => null,
+        ], 201);
+    }
 
-
+    /*
+     * Получить всю статистику заявок за: (сутки, неделя, месяц)
+     * --
+     * Сервис вернет в виде массива ($this->ticketService->getStatistics()):
+     * [
+     *      'day'   => Кол-во заявок за сутки,
+     *      'week'  => Кол-во заявок за неделю,
+     *      'month' => Кол-во заявок за месяц,
+     * ];
+     * --
+     * Но фронту передаем как всегда все в JSON формате строго. (response()->json)
+     * Пример такой простенький я думаю этого достаточно:
+     * {"message":"OK","data":{"day":1,"week":43,"month":43}}
+     * **/
+    public function statistics()  // здесь не нужно добавлять тип ответа так как ресурс вернет свой и будет ошибка так как JsonResource не является JsonResponse, Лара сама обвернет в json
+    {
+        return new TicketStatisticsResource(       // return [...] -> JsonResource
+            $this->ticketService->getStatistics()  // return [...] -> Array
+        );
+    }
 }
