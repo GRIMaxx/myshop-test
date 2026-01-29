@@ -123,8 +123,27 @@ composer install
 ```bash
 cp .env.example .env
 php artisan key:generate
+
+Указать доступы к БД
 ```
 
+---
+
+### 4. Установка пакетов
+spatie/laravel-permission
+```bash
+composer require spatie/laravel-permission
+php artisan vendor:publish --provider="Spatie\Permission\PermissionServiceProvider"
+php artisan migrate
+```
+
+spatie/laravel-medialibrary
+```bash
+composer require spatie/laravel-medialibrary
+php artisan vendor:publish --provider="Spatie\MediaLibrary\MediaLibraryServiceProvider" --tag="medialibrary-migrations"
+php artisan vendor:publish --provider="Spatie\MediaLibrary\MediaLibraryServiceProvider" --tag="medialibrary-config"
+php artisan migrate
+```
 
 
 
