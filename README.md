@@ -160,7 +160,7 @@ database/myshop_test.sql
 ```
 
 ## Виджет обратной связи
-## Маршрут
+Маршрут
 ```bash
 GET /widget
 ```
