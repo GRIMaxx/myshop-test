@@ -96,7 +96,7 @@ resources/
     └── views/
     └── widget/
     ├── components/
-    │ └── form/
+    │   └── form/
     └── admin/
     └── components/
 
